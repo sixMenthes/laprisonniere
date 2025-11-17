@@ -1,6 +1,11 @@
 import numpy as np
+import os
 import torch
+os.environ['OMP_NUM_THREADS'] = '16'  
+os.environ['OMP_WAIT_POLICY'] = 'PASSIVE'
 import faiss
+torch.set_num_threads(16)  # Match physical cores
+torch.set_num_interop_threads(16)
 from transformers import AutoTokenizer, AutoModel
 import pickle
 
@@ -47,7 +52,7 @@ def main():
     with open('../corpus/whole_proust/corpus.pickle', 'rb') as f:
         phrases = pickle.load(f)
 
-    sentence_embeddings = encoder_par_batch(phrases, 2000)
+    sentence_embeddings = encoder_par_batch(phrases, 64)
     créer_index_faiss(sentence_embeddings)
 
 if __name__ == "__main__":
