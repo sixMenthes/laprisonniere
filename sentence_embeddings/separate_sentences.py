@@ -1,6 +1,6 @@
 import os
 import re
-from tqdm import tqdm
+#from tqdm import tqdm
 import pickle
 
 separateur = re.compile(r'\.{1,3} |\.» |\: |\; |\! |\?')
@@ -9,7 +9,7 @@ proust_path = os.path.abspath('../corpus/whole_proust')
 def tokenizer_corpus(corpus_path):
     tokenizées_phrases = []
     oeuvres = os.listdir(corpus_path)
-    for oeuvre in tqdm(oeuvres):
+    for oeuvre in oeuvres:
         oeuvre_path = os.path.join(corpus_path, oeuvre)
         with open(oeuvre_path, "r") as texte:
             texte = texte.read()
@@ -20,7 +20,7 @@ def tokenizer_corpus(corpus_path):
     return tokenizées_phrases
 
 def sauvegarder_corpus(corpus_tokénizé):
-    with open('corpus.pickle', 'wb') as f:
+    with open('../corpus/whole_proust/corpus.pickle', 'wb') as f:
         pickle.dump(corpus_tokénizé, f)
 
 if __name__ == "__main__":
