@@ -7,7 +7,7 @@ from spacy.tokens import DocBin
 
 nlp = spacy.load("fr_dep_news_trf")
 proust_path = os.path.abspath('../corpus_echos/')
-resultats_path = os.path.abspath('../results/phrasés/')
+resultats_path = os.path.abspath('../results/')
 
 def préprocesser_corpus(texte:str):
     texte = re.sub(r'\n', ' ', texte)
@@ -42,9 +42,11 @@ def phraser_corpus(corpus_path):
     return recherche_parsée, recherche_texte
 
 def main():
+    doc_path = os.path.join(resultats_path, 'recherche_parsée.spacy')
+    cornichon_path = os.path.join(resultats_path, 'corpus.pickle')
     doc_bin, phrases = phraser_corpus(proust_path)
-    doc_bin.to_disk(os.path.join(resultats_path, 'recherche_parsée.spacy'))
-    with open('../corpus/whole_proust/corpus.pickle', 'wb') as f:
+    doc_bin.to_disk(doc_path)
+    with open(cornichon_path, 'wb') as f:
         pickle.dump(phrases, f)
     
 
