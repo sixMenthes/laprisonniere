@@ -6,10 +6,9 @@ import pickle
 import spacy
 from spacy.tokens import DocBin
 
-
 nlp = spacy.load("fr_dep_news_trf")
-proust_path = os.path.abspath('../corpus_echos/')
-resultats_path = os.path.abspath('../results/')
+proust_path = os.path.abspath('./corpus_echos/')
+resultats_path = os.path.abspath('./results/')
 dict_doublons = defaultdict(list)
 
 def préprocesser_corpus(texte:str):

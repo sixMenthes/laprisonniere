@@ -10,7 +10,7 @@ from transformers import AutoTokenizer, AutoModel
 import pickle
 import tqdm
 
-resultats_path = os.path.abspath('../results/')
+resultats_path = os.path.abspath('./results/')
 
 # Mean Pooling - Take attention mask into account for correct averaging
 def mean_pooling(model_output, attention_mask):
