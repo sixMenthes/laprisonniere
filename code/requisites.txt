@@ -1,7 +1,0 @@
-numpy 
-torch
-faiss
-transformers 
-pickle
-
-
