@@ -46,7 +46,7 @@ def encoder_par_batch(liste_corpus, n):
     return sentence_embeddings
     
 def main():
-    cornichon = os.path.join(resultats_path, 'corpus.pickle')
+    cornichon = os.path.join(resultats_path, 'corpus_en_phrases.pickle')
     indice_chemin = os.path.join(resultats_path, 'vecteurs.index')
     with open(cornichon, 'rb') as f:
         phrases = pickle.load(f)
