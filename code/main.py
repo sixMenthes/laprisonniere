@@ -1,5 +1,5 @@
-import phraseur
-import vectoriseur
+import code.phraseur as phraseur
+import code.vectoriseur as vectoriseur
 
 def main():
     phraseur.main()

@@ -39,6 +39,7 @@ def phraser_corpus(corpus_path):
         oeuvre_path = os.path.join(corpus_path, oeuvre)
         with open(oeuvre_path, "r") as t:
             texte = préprocesser_corpus(t.read())
+            print(f"")
             doc = nlp(texte)
             s, p = phraser_doc(doc, oeuvre)
             recherche_parsée.merge(s)
