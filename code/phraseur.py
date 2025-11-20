@@ -7,12 +7,16 @@ import spacy
 from spacy.tokens import DocBin
 
 nlp = spacy.load("fr_dep_news_trf")
+# poncutation = os.path.abspath("./results/ponctuation.pickle")
 proust_path = os.path.abspath('./corpus_echos/')
 resultats_path = os.path.abspath('./results/')
 dict_doublons = defaultdict(list)
 
 def préprocesser_corpus(texte:str):
     texte = re.sub(r'\n', ' ', texte)
+    texte = re.sub(r'[\x00-\x1F\x7F\uFEFF]', '', texte)
+    texte = re.sub(r"(\*|\^|’|:|\/|»|;|\.|%|!|,|-|—|°|«|\)|\?|_|\[|'|\]|\(|=\
+                    |\))", r" \1 ", texte)
     texte = re.sub(r' +', ' ', texte)
     return texte
 
@@ -39,7 +43,6 @@ def phraser_corpus(corpus_path):
         oeuvre_path = os.path.join(corpus_path, oeuvre)
         with open(oeuvre_path, "r") as t:
             texte = préprocesser_corpus(t.read())
-            print(f"")
             doc = nlp(texte)
             s, p = phraser_doc(doc, oeuvre)
             recherche_parsée.merge(s)
