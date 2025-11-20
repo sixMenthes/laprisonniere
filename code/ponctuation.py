@@ -6,6 +6,14 @@ Regex qui marche un peu:
 
 (?<! [A-Z])(\.{1,3}|!+|\?+|;|:)(?=( [A-Z]| «|\n|» |»\n|--|\n--))
 
+Amélioration:
+
+1. ((?<! [A-Z])(\.{1,3}|!+|\?+)(?= [A-Z]))
+2. :(?= «\w+)
+3. (?<=\.|\?|!)»
+4. ; 
+
+
 il faut éliminer la question des \n
 par ailleurs, on se rend compte que la présence des majuscules à la suite de la ponctuation est décisive.
 
