@@ -10,6 +10,8 @@ from transformers import AutoTokenizer, AutoModel
 import pickle
 from tqdm import tqdm
 
+tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+model = AutoModel.from_pretrained('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
 resultats_path = os.path.abspath('./results/')
 
 # Mean Pooling - Take attention mask into account for correct averaging
@@ -28,8 +30,6 @@ def créer_index_faiss(embeddings, index_path):
 def encoder_par_batch(liste_corpus, n):
 
     print(f"Loading tokenizer and model...")
-    tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
-    model = AutoModel.from_pretrained('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
     all_embeddings = []
 
     for i in tqdm(range(0, len(liste_corpus), n), desc="Encodage par batch"):
