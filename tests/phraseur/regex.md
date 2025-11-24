@@ -1,31 +1,4 @@
-"""
-Regex qui marche un peu:
-
-(?<! [A-Z])(\.{1,3}|!+|\?+|;|:)(?=( [A-Z]| «|\n|» |»\n|--|\n--))
-
-Amélioration:
-
-1. ((?<! [A-Z])(\.{1,3}|!+|\?+)(?= [A-Z]))
-2. :(?= «\w+)
-3. (?<=\.|\?|!)»
-4. ; 
-
-
-il faut éliminer la question des \n
-par ailleurs, on se rend compte que la présence des majuscules à la suite de la ponctuation est décisive.
-
-Extrait compliqué:
- Il avait à dire «vous», et le moins souvent possible «Monsieur»,
-le plaisir de quelqu'un dont le père n'avait jamais employé, en
-s'adressant à mes parents, que la «troisième personne». Presque toutes
-les photographies portaient une dédicace telle que: «A mon meilleur
-ami». Une actrice plus ingrate et plus avisée avait écrit: «Au meilleur
-des amis», ce qui lui permettait, m'a-t-on assuré, de dire que mon oncle
-n'était nullement, et à beaucoup près, son meilleur ami, mais l'ami qui
-lui avait rendu le plus de petits services, l'ami dont elle se servait,
-un excellent homme, presque une vieille bête. 
-
-Résultat du progamme ci-dessous:
+# Ponctuation
 
 {'’', '-', '=', '.', '^', '[', '»', ')', '%', '\ufeff', ',', ' ', ';', '_', ':', '*', '«', '!', '(', '/', "'", ']', '\n', '?', '°', '—', '\x7f'}
 
@@ -33,18 +6,28 @@ Le pourcentage n'apparaît qu'une fois, les astérisques sont liés aux changeme
 
 
 
-Il faut recommencer le travail sur les regex:
+# Regex
 
-Extrait:
+### Extrait varié:
+```
 Ces efforts furent infructueux . A peine mon grand - père eut - il posé à Swann une question relative à cet orateur qu ’ une des sœurs de ma grand ’ mère aux oreilles de qui cette question résonna comme un silence profond mais intempestif et qu ’ il était poli de rompre , interpella l ’ autre : « Imagine - toi , Céline , que j ’ ai fait la connaissance d ’ une jeune institutrice suédoise qui m ’ a donné sur les coopératives dans les pays scandinaves des détails tout ce qu ’ il y a de plus intéressants . Il faudra qu ’ elle vienne dîner ici un soir . » « Je crois bien ! répondit sa sœur Flora , mais je n ’ ai pas perdu mon temps non plus . J ’ ai rencontré chez M . Vinteuil un vieux savant qui connaît beaucoup Maubant , et à qui Maubant a expliqué dans le plus grand détail comment il s ’ y prend pour composer un rôle . C ’ est tout ce qu ’ il y a de plus intéressant . C ’ est un voisin de M . Vinteuil , je n ’ en savais rien ; et il est très aimable . » « Il n ’ y a pas que M . Vinteuil qui ait des voisins aimables » , s ’ écria ma tante Céline d ’ une voix que la timidité rendait forte et la préméditation , factice , tout en jetant sur Swann ce qu ’ elle appelait un regard significatif . En même temps ma tante Flora qui avait compris que cette phrase était le remerciement de Céline pour le vin d ’ Asti , regardait également Swann avec un air mêlé de congratulation et d ’ ironie , soit simplement pour souligner le trait d ’ esprit de sa sœur , soit qu ’ elle enviât Swann de l ’ avoir inspiré , soit qu ’ elle ne pût s ’ empêcher de se moquer de lui parce qu ’ elle le croyait sur la sellette . « Je crois qu ’ on pourra réussir à avoir ce monsieur à dîner , continua Flora ; quand on le met sur Maubant ou sur Mme Materna , il parle des heures sans s ’ arrêter . » « Ce doit être délicieux » , soupira mon grand - père dans l ’ esprit de qui la nature avait malheureusement aussi complètement omis d ’ inclure la possibilité de s ’ intéresser passionnément aux coopératives suédoises ou à la composition des rôles de Maubant , qu ’ elle avait oublié de fournir celui des sœurs de ma grand ’ mère du petit grain de sel qu ’ il faut ajouter soi - même pour y trouver quelque saveur , à un récit sur la vie intime de Molé ou du comte de Paris . « Tenez , dit Swann à mon grand - père , ce que je vais vous dire a plus de rapports que cela n ’ en a l ’ air avec ce que vous me demandiez , car sur certains points les choses n ’ ont pas énormément changé . Je relisais ce matin dans Saint - Simon quelque chose qui vous aurait amusé . C ’ est dans le volume sur son ambassade d ’ Espagne ; ce n ’ est pas un des meilleurs , ce n ’ est guère qu ’ un journal , mais du moins un journal merveilleusement écrit , ce qui fait déjà une première différence avec les assommants journaux que nous nous croyons obligés de lire matin et soir . » « Je ne suis pas de votre avis , il y a des jours où la lecture des journaux me semble fort agréable . . . » , interrompit ma tante Flora , pour montrer qu ’ elle avait lu la phrase sur le Corot de Swann dans le Figaro . « Quand ils parlent de choses ou de gens qui nous intéressent ! » enchérit ma tante Céline . « Je ne dis pas non , répondit Swann étonné . Ce que je reproche aux journaux c ’ est de nous faire faire attention tous les jours à des choses insignifiantes tandis que nous lisons trois ou quatre fois dans notre vie les livres où il y a des choses essentielles . Du moment que nous déchirons fiévreusement chaque matin la bande du journal , alors on devrait changer les choses et mettre dans le journal , moi je ne sais pas , les . . . Pensées de Pascal ! ( il détacha ce mot d ’ un ton d ’ emphase ironique pour ne pas avoir l ’ air pédant ) . 
+```
 
+```
 (?<=[^A-Z]((?<= \. \.|[^\.]) \.| !| \?)(?= [A-Z]| «| »| \()|;|\))  
+```
 
-what about the opening parenthesis in 
-
+### Parenthèses compliquées:
+```
 Mais ( sans doute parce qu ' il pensait qu ' une pareille scène ne pouvait se prolonger indéfiniment dans cet endroit , soit pour des raisons qu ' on comprendra plus tard , soit enfin par ce sentiment de la brièveté de toutes choses qui fait qu ' on veut que chaque coup porte juste , et qui rend si émouvant le spectacle de tout amour ) , chaque fois que M . de Charlus regardait Jupien , il s ' arrangeait pour que son regard fût accompagné d ' une parole , ce qui le rendait infiniment dissemblable des regards habituellement dirigés sur une personne qu ' on connaît ou qu ' on ne connaît pas ; il regardait Jupien avec la fixité particulière de quelqu ' un qui va vous dire : « Pardonnez - moi mon indiscrétion , mais vous avez un long fil blanc qui pend dans votre dos » , ou bien : « Je ne dois pas me tromper , vous devez être aussi de Zurich , il me semble bien vous avoir rencontré souvent chez le marchand d ' antiquités . » 
+```
 
-difficult excerpt
+### Dialogue avec tiret:
+```
+- - Comment , petite sotte , tu parles comme si tu avais deux ans . Qu ' est - ce que tu dis : employé dans un ministère ? Il est tout simplement chef de cabinet , chef de toute la boutique , et encore , où ai - je la tête , ma parole je suis aussi distrait que toi , il n ' est pas chef de cabinet , il est _ directeur _ du cabinet . - - J ' sais pas , moi ; alors c ' est beaucoup d ' être le directeur du cabinet ? répondait Gilberte qui ne perdait jamais une occasion de manifester de l ' indifférence pour tout ce qui donnait de la vanité à ses parents ( elle pouvait d ' ailleurs penser qu ' elle ne faisait qu ' ajouter à une relation aussi éclatante , en n ' ayant pas l ' air d ' y attacher trop d ' importance ) . - - Comment , si c ' est beaucoup ! s ' écriait Swann qui préférait à cette modestie qui eût pu me laisser dans le doute , un langage plus explicite . Mais c ' est simplement le premier après le ministre ! C ' est même plus que le ministre , car c ' est lui qui fait tout . Il paraît du reste que c ' est une capacité , un homme de premier ordre , un individu tout à fait distingué . Il est officier de la Légion d ' honneur . C ' est un homme délicieux , même fort joli garçon . Sa femme d ' ailleurs l ' avait épousé envers et contre tous parce que c ' était un « être de charme » . Il avait , ce qui peut suffire à constituer un ensemble rare et délicat , une barbe blonde et soyeuse , de jolis traits , une voix nasale , l ' haleine forte et un oeil de verre . - - Je vous dirai , ajoutait - il en s ' adressant à moi , que je m ' amuse beaucoup de voir ces gens - là dans le gouvernement actuel , parce que ce sont les Bontemps , de la maison Bontemps - Chenut , le type de la bourgeoisie réactionnaire cléricale , à idées étroites . Votre pauvre grand - père a bien connu , au moins de réputation et de vue , le vieux père Chenut qui ne donnait qu ' un sou de pourboire aux cochers bien qu ' il fût riche pour l ' époque , et le baron Bréau - Chenut . Toute la fortune a sombré dans le krach de l ' Union Générale , vous êtres trop jeune pour avoir connu ça , et dame on s ' est refait comme on a pu . - - C ' est l ' oncle d ' une petite qui venait à mon cours , dans une classe bien au - dessous de moi , la fameuse « Albertine » . Elle sera sûrement très « fast » mais en attendant elle a une drôle de touche . - - Elle est étonnante ma fille , elle connaît tout le monde . - - Je ne la connais pas . Je la voyais seulement passer , on criait Albertine par - ci , Albertine par - là . Mais je connais Mme Bontemps , et elle ne me plaît pas non plus . - - Tu as le plus grand tort , elle est charmante , jolie , intelligente . Elle est même spirituelle . Je vais aller lui dire bonjour , lui demander si son mari croit que nous allons avoir la guerre , et si on peut compter sur le roi Théodose . Il doit savoir cela , n ' est - ce pas , lui qui est dans le secret des Dieux ? Ce n ' est pas ainsi que Swann parlait autrefois ; mais qui n ' a vu des princesses royales fort simples , si dix ans plus tard elles se sont fait enlever par un valet de chambre , et qu ' elles cherchent à revoir du monde et sentent qu ' on ne vient pas volontiers chez elles , prendre spontanément le langage des vieilles raseuses , et quand on cite une duchesse à la mode , ne les a entendues dire : « Elle était hier chez moi » , et : « Je vis très à l ' écart » ? Aussi est - il inutile d ' observer les moeurs puisque on peut les déduire des lois psychologiques . Les Swann participaient à ce travers des gens chez qui peu de monde va ; la visite , l ' invitation , une simple parole aimable de personnes un peu marquantes étaient pour eux un événement auquel ils souhaitaient de donner de la publicité .
+```
 
 
-"""
+```
+(?<=[^A-Z](?:(?<= \. \.|[^\.]) \.| !| \?)) (?=[A-Z]|«|»|\(|;|\)|(?:-(?= -)))
+```
