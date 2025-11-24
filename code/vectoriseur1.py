@@ -43,7 +43,7 @@ def encoder_par_batch(liste_corpus, n):
 
 def créer_index_faiss(embeddings, index_path):
     d = embeddings.size(1)
-    index = faiss.IndexFlatL2(d) 
+    index = faiss.IndexFlatIP(d) 
     embeddings_np = embeddings.cpu().numpy().astype('float32')
     index.add(embeddings_np)
     faiss.write_index(index, index_path)
