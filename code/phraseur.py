@@ -6,8 +6,8 @@ import pickle
 import spacy
 from spacy.tokens import DocBin
 
+séparateur = re.compile(r'(?<=[^A-Z]((?<= \. \.|[^\.]) \.| !| \?)(?= [A-Z]| «| »| \()|;|\)) ')
 nlp = spacy.load("fr_dep_news_trf")
-# poncutation = os.path.abspath("./results/ponctuation.pickle")
 proust_path = os.path.abspath('./corpus_echos/')
 resultats_path = os.path.abspath('./results/')
 dict_doublons = defaultdict(list)
@@ -43,7 +43,7 @@ def phraser_corpus(corpus_path):
         oeuvre_path = os.path.join(corpus_path, oeuvre)
         with open(oeuvre_path, "r") as t:
             texte = préprocesser_corpus(t.read())
-            doc = nlp(texte)
+            doc = nlp(texte)  # segmentation happens here
             s, p = phraser_doc(doc, oeuvre)
             recherche_parsée.merge(s)
             recherche_texte.extend(p)
