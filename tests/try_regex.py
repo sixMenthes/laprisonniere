@@ -1,9 +1,9 @@
 import re
 import os
 
-destination = os.path.abspath("./tests/exemple_ponct_spaced.txt")
+destination = os.path.abspath("/Users/leo/M2TALS1/cv/github_ordering/laprisonniere/tests/corpus")
 
-origin = os.path.abspath("./tests/exemple_ponct.txt")
+corpus_chemin = os.path.abspath("/Users/leo/M2TALS1/cv/github_ordering/laprisonniere/corpus_echos")
 
 def préprocesser_corpus(texte:str):
     texte = re.sub(r'\n', ' ', texte)
@@ -17,10 +17,16 @@ def préprocesser_corpus(texte:str):
 
 
 def main():
-    with open(origin, "r", encoding="UTF-8") as o:
-        cote = o.read()
-    with open(destination, "w", encoding="UTF-8") as d:
-        d.write(préprocesser_corpus(cote))
+
+    originaux = os.listdir(corpus_chemin)
+    for original in originaux:
+        nom = original
+        oeuvre = os.path.join(corpus_chemin, original)
+        target = os.path.join(destination, nom)
+        with open(oeuvre, "r", encoding="UTF-8") as o:
+            cote = o.read()
+        with open(target, "w", encoding="UTF-8") as d:
+            d.write(préprocesser_corpus(cote))
 
 if __name__ == "__main__":
     main()
