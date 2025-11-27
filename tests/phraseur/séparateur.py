@@ -4,7 +4,7 @@ import random
 
 # random.seed(22)
 
-séparateur = re.compile(r'(?<=[^A-Z](?:(?:(?<= \. \.|[^\.]) \.)| !| \?)) (?=[A-Z]|\(|\)|«|-(?= -))|(?<=;) |(?<=») (?=«)')
+séparateur = re.compile(r'(?<=[^A-Z](?:(?:(?<= \. \.|[^\.]) \.)| !| \?)) (?=[A-Z]|\(|\)|«|-(?= -))|(?<=;) |(?<=») (?=«)|(?<=(?<=(?:[!\?\.]) )») ')
 origin = "tests/corpus/"
 oeuvres = os.listdir(origin)
 nombre_oeuvres = len(oeuvres)

@@ -6,7 +6,7 @@ import pickle
 import spacy
 from spacy.tokens import DocBin
 
-séparateur = re.compile(r'(?<=[^A-Z](?:(?:(?<= \. \.|[^\.]) \.)| !| \?)) (?=[A-Z]|\(|\)|«|-(?= -))|(?<=;) |(?<=») (?=«)')
+séparateur = re.compile(r'(?<=[^A-Z](?:(?:(?<= \. \.|[^\.]) \.)| !| \?)) (?=[A-Z]|\(|\)|«|-(?= -))|(?<=;) |(?<=») (?=«)|(?<=(?<=(?:[!\?\.]) )») ')
 nlp = spacy.load("fr_dep_news_trf")
 proust_path = os.path.abspath('./corpus_echos/')
 resultats_path = os.path.abspath('./results/')
