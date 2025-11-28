@@ -4,6 +4,7 @@ import numpy as np
 import os
 import sys
 import pandas as pd
+from tqdm import tqdm
 
 chemin_phrases = "results/corpus_en_phrases.pickle"
 chemin_index = "results/vecteurs.index"
@@ -29,8 +30,10 @@ def faire_table(indices_ordonnés:np.ndarray, distances_ordonnées:np.ndarray,\
                 phrases:list, taille_bout=5000):
     phrases_array = np.array(phrases)
     fichier = os.path.join(chemin_resultats, "voisins.csv")
-    
-    for début in range(0, len(indices_ordonnés), taille_bout):
+    bar_progrès = tqdm(range(0, len(indices_ordonnés), taille_bout))
+    portions = len(indices_ordonnés) // taille_bout
+    for i, début in enumerate(bar_progrès):
+        bar_progrès.set_description(f"En train de processer bout {i+1} sur {portions}...") 
         fin = min(début + taille_bout, len(indices_ordonnés))
         bout_indices = indices_ordonnés[début:fin]
         bout_distances = distances_ordonnées[début:fin]
@@ -51,6 +54,7 @@ def faire_table(indices_ordonnés:np.ndarray, distances_ordonnées:np.ndarray,\
 def main():
     with open(chemin_phrases, "rb") as t:
         phrases = pickle.load(t)
+    print(f"Il y a {len(phrases)} phrases")
     d, i = charger_index(chemin_index, len(phrases))
     i_ordonnés, d_ordonnées = ordonner_index(d, i)
     faire_table(i_ordonnés, d_ordonnées, phrases)
