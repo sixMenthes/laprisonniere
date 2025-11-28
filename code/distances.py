@@ -5,14 +5,15 @@ import os
 import sys
 import pandas as pd
 
-chemin_phrases = "/path"
-chemin_index = "/path"
-chemin_resultats = "/path"
+chemin_phrases = "results/corpus_en_phrases.pickle"
+chemin_index = "results/vecteurs.index"
+chemin_resultats = "results/"
 
 def charger_index(chemin_index:str, nombre_phrases:int):
     index_vecteurs = faiss.read_index(chemin_index)
     vecteurs = index_vecteurs.reconstruct_batch(range(0, nombre_phrases))
     D, I = index_vecteurs.search(vecteurs[:], nombre_phrases)
+    print(I[:5, :5]) # sanity check
     fichier = os.path.join(chemin_resultats, "matrices.npz")
     with open(fichier, "wb") as f:
         np.savez_compressed(f, d=D, i=I)
@@ -38,7 +39,7 @@ def faire_table(indices_ordonnés:np.ndarray, distances_ordonnées:np.ndarray,\
     df.to_csv(fichier)
 
 def main():
-    with open(chemin_phrases, "r") as t:
+    with open(chemin_phrases, "rb") as t:
         phrases = pickle.load(t)
     n = len(phrases)
     d, i = charger_index(chemin_index, n)
