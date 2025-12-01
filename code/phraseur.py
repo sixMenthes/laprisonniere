@@ -8,8 +8,8 @@ from spacy.tokens import DocBin
 
 séparateur = re.compile(r'(?<=[^A-Z](?:(?:(?<= \. \.|[^\.]) \.)| !| \?)) (?=[A-Z]|\(|\)|«|-(?= -))|(?<=;) |(?<=») (?=«)|(?<=(?<=(?:[!\?\.]) )») ')
 nlp = spacy.load("fr_dep_news_trf")
-proust_chemin = os.path.abspath('./tests/corpus')
-resultats_chemin = os.path.abspath('./tests/phraseur/resultats/')
+proust_chemin = os.path.abspath('./corpus_echos')
+resultats_chemin = os.path.abspath('./results')
 dict_doublons = defaultdict(list)
 
 def préprocesser_corpus(texte:str):
