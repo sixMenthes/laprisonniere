@@ -2,5 +2,7 @@ earvenv/
 results/
 tests/
 .DS_STORE
-
-results.tgz
+lettre.txt
+results*.tgz
+voisins.zip
+doublons.pickle
