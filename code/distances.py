@@ -27,9 +27,9 @@ def ordonner_index(distances:np.ndarray, indices:np.ndarray):
     return indices_ordonnés, distances_ordonnées
 
 def faire_table(indices_ordonnés:np.ndarray, distances_ordonnées:np.ndarray,\
-                phrases:list, taille_bout=5000):
+                phrases:list, taille_bout=5000, nom="cosinus"):
     phrases_array = np.array(phrases)
-    fichier = os.path.join(chemin_resultats, "voisins.csv")
+    fichier = os.path.join(chemin_resultats, f"{nom}_voisins.csv")
     bar_progrès = tqdm(range(0, len(indices_ordonnés), taille_bout))
     portions = len(indices_ordonnés) // taille_bout
     for i, début in enumerate(bar_progrès):
@@ -43,21 +43,45 @@ def faire_table(indices_ordonnés:np.ndarray, distances_ordonnées:np.ndarray,\
         I2 = bout_indices[:, 2]
         I3 = bout_indices[:, 3]
         
-        dictionnaire = {"P0": phrases_array[I0],
-                        "P1": phrases_array[I1], "D1": bout_distances[:, 1],
-                        "P2": phrases_array[I2], "D2": bout_distances[:, 2],
-                        "P3": phrases_array[I3], "D3": bout_distances[:, 3]}
+        dictionnaire = {"I0": I0, "P0": phrases_array[I0],
+                        "I1": I1, "P1": phrases_array[I1], "D1": bout_distances[:, 1],
+                        "I2": I2, "P2": phrases_array[I2], "D2": bout_distances[:, 2],
+                        "I3": I3, "P3": phrases_array[I3], "D3": bout_distances[:, 3]}
         df = pd.DataFrame(dictionnaire, index=I0)
         
         df.to_csv(fichier, mode='a', header=(début==0))
+
+def maxima(phrases:np.array):
+    max_longueurs = max([len(phrase) for phrase in phrases])
+    max_distances = len(phrases) - 1
+    return max_longueurs, max_distances
+
+def ponderation(phrases, index_comparant, index_compare, similarite_cosinus, max_longueurs, max_distances):
+    distance_score = 1 - (abs(index_comparant - index_compare) / max_distances)
+    longueur_score = max(len(phrases[index_comparant]), len(phrases[index_compare])) / max_longueurs
+    return 0.7 * similarite_cosinus + 0.2 * distance_score + 0.1 * longueur_score
+
+def table_scores(phrases:np.array, distances:np.ndarray, indices:np.ndarray):
+    matrice_scores = np.zeros_like(distances)
+    max_longueurs, max_distances = maxima(phrases)
+    for i in range(len(phrases)):
+        for j in range(len(phrases)):
+            if i != j:
+                matrice_scores[i, j] = ponderation(phrases, indices[i,0], indices[i,j], distances[i,j], max_longueurs, max_distances)
+            else:
+                matrice_scores[i, j] = 1.
+    return matrice_scores
 
 def main():
     with open(chemin_phrases, "rb") as t:
         phrases = pickle.load(t)
     print(f"Il y a {len(phrases)} phrases")
     d, i = charger_index(chemin_index, len(phrases))
+    table_ponderee = table_scores(phrases, d, i)
+    i_ordonnés, d_pond_ordonnees = ordonner_index(table_ponderee, i)
     i_ordonnés, d_ordonnées = ordonner_index(d, i)
     faire_table(i_ordonnés, d_ordonnées, phrases)
+    faire_table(i_ordonnés, d_pond_ordonnees, phrases, nom="ponderes")
 
 if __name__ == "__main__":
     main()
