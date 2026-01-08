@@ -1,4 +1,5 @@
 earvenv/
+src/__pycache__/
 results/
 tests/
 .DS_STORE

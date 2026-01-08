@@ -1,6 +1,6 @@
-import code.phraseur as phraseur
-import code.vectoriseur as vectoriseur
-import code.distances as distances
+import src.phraseur as phraseur
+import src.vectoriseur as vectoriseur
+import src.distances as distances
 
 def main():
     phraseur.main()

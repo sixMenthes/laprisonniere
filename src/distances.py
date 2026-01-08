@@ -15,9 +15,6 @@ def charger_index(chemin_index:str, nombre_phrases:int):
     vecteurs = index_vecteurs.reconstruct_batch(range(0, nombre_phrases))
     D, I = index_vecteurs.search(vecteurs[:], nombre_phrases)
     print(I[:5, :5]) # sanity check
-    fichier = os.path.join(chemin_resultats, "matrices.npz")
-    with open(fichier, "wb") as f:
-        np.savez_compressed(f, d=D, i=I)
     return D, I
 
 def ordonner_index(distances:np.ndarray, indices:np.ndarray):
@@ -47,8 +44,8 @@ def faire_table(indices_ordonnés:np.ndarray, distances_ordonnées:np.ndarray,\
                         "I1": I1, "P1": phrases_array[I1], "D1": bout_distances[:, 1],
                         "I2": I2, "P2": phrases_array[I2], "D2": bout_distances[:, 2],
                         "I3": I3, "P3": phrases_array[I3], "D3": bout_distances[:, 3]}
-        df = pd.DataFrame(dictionnaire, index=I0)
         
+        df = pd.DataFrame(dictionnaire, index=I0)
         df.to_csv(fichier, mode='a', header=(début==0))
 
 def maxima(phrases:np.array):
@@ -57,19 +54,20 @@ def maxima(phrases:np.array):
     return max_longueurs, max_distances
 
 def ponderation(phrases, index_comparant, index_compare, similarite_cosinus, max_longueurs, max_distances):
-    distance_score = 1 - (abs(index_comparant - index_compare) / max_distances)
+    distance_score = abs(index_comparant - index_compare) / max_distances
     longueur_score = max(len(phrases[index_comparant]), len(phrases[index_compare])) / max_longueurs
-    return 0.7 * similarite_cosinus + 0.2 * distance_score + 0.1 * longueur_score
+    return 0.7 * similarite_cosinus + 0.2 * longueur_score + 0.1 * distance_score
 
 def table_scores(phrases:np.array, distances:np.ndarray, indices:np.ndarray):
     matrice_scores = np.zeros_like(distances)
+    n = len(phrases)
     max_longueurs, max_distances = maxima(phrases)
-    for i in range(len(phrases)):
-        for j in range(len(phrases)):
+    for i in range(n):
+        for j in range(n):
             if i != j:
-                matrice_scores[i, j] = ponderation(phrases, indices[i,0], indices[i,j], distances[i,j], max_longueurs, max_distances)
+                matrice_scores[i, j] = ponderation(phrases, i, indices[i,j], distances[i,j], max_longueurs, max_distances)
             else:
-                matrice_scores[i, j] = 1.
+                matrice_scores[i, j] = 0.
     return matrice_scores
 
 def main():
