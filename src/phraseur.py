@@ -4,15 +4,17 @@ from collections import defaultdict
 from tqdm import tqdm
 import pickle
 import spacy
+import unicodedata
 from spacy.tokens import DocBin
 
-séparateur = re.compile(r'(?<=[^A-Z](?:(?:(?<= \. \.|[^\.]) \.)| !| \?)) (?=[A-Z]|\(|\)|«|-(?= -))|(?<=;) |(?<=») (?=«)|(?<=(?<=(?:[!\?\.]) )») ')
+séparateur = re.compile(r'(?<=[^A-Z](?:(?:(?<= \. \.|[^\.]) \.)| !| \?)) (?=[A-ZÁÀÂÉÈÊÔÎ]|\(|\)|«|-(?= -))|(?<=;) |(?<=») (?=«)|(?<=(?<=(?:[!\?\.]) )») ')
 nlp = spacy.load("fr_dep_news_trf")
 proust_chemin = os.path.abspath('./corpus_echos')
 resultats_chemin = os.path.abspath('./results')
 dict_doublons = defaultdict(list)
 
 def préprocesser_corpus(texte:str):
+    texte = unicodedata.normalize('NFC', texte)
     texte = re.sub(r'\n', ' ', texte)
     texte = re.sub(r'[\x00-\x1F\x7F\uFEFF]', '', texte)
     texte = re.sub(r"(\*|\^|’|:|\/|»|;|\.|%|!|,|-|—|°|«|\)|\?|_|\[|'|\]|\(|=\

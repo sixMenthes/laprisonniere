@@ -5,6 +5,8 @@ import os
 import sys
 import pandas as pd
 from tqdm import tqdm
+from src.heatmaps import ordonner_diachronique, plot_distance_heatmap
+import gc
 
 chemin_phrases = "results/corpus_en_phrases.pickle"
 chemin_index = "results/vecteurs.index"
@@ -17,7 +19,7 @@ def charger_index(chemin_index:str, nombre_phrases:int):
     print(I[:5, :5]) # sanity check
     return D, I
 
-def ordonner_index(distances:np.ndarray, indices:np.ndarray):
+def ordonner_index_max(distances:np.ndarray, indices:np.ndarray):
     indices_plus_similaires = distances[:,1].argsort()[::-1]
     print("Ordonnancement de l'index...")
     indices_ordonnés, distances_ordonnées = (indices[indices_plus_similaires, :], distances[indices_plus_similaires, :])
@@ -75,11 +77,25 @@ def main():
         phrases = pickle.load(t)
     print(f"Il y a {len(phrases)} phrases")
     d, i = charger_index(chemin_index, len(phrases))
-    table_ponderee = table_scores(phrases, d, i)
-    i_ordonnés, d_pond_ordonnees = ordonner_index(table_ponderee, i)
-    i_ordonnés, d_ordonnées = ordonner_index(d, i)
+    i_ordonnés, d_ordonnées = ordonner_index_max(d, i)
     faire_table(i_ordonnés, d_ordonnées, phrases)
+    del i_ordonnés, d_ordonnées
+    gc.collect()
+    d_diachronique = ordonner_diachronique(d, i)
+    tableau = plot_distance_heatmap(d_diachronique, name="Cosinus")
+    print(f"Premier heatmap bien créé: {tableau == 0}")
+    del d_diachronique
+    gc.collect()
+    ponderee = table_scores(phrases, d, i)
+    i_ordonnés, d_pond_ordonnees = ordonner_index_max(ponderee, i)
     faire_table(i_ordonnés, d_pond_ordonnees, phrases, nom="ponderes")
+    del i_ordonnés, d_pond_ordonnees, d
+    gc.collect()
+    p_diachronique = ordonner_diachronique(ponderee, i)
+    tableau = plot_distance_heatmap(p_diachronique, name="Scores pondérés")
+    print(f"Deuxième heatmap bien créé: {tableau == 0}")
+    return 0
+    
 
 if __name__ == "__main__":
     main()
