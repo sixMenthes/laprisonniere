@@ -12,12 +12,22 @@ chemin_phrases = "results/corpus_en_phrases.pickle"
 chemin_index = "results/vecteurs.index"
 chemin_resultats = "results/"
 
-def charger_index(chemin_index:str, nombre_phrases:int):
-    index_vecteurs = faiss.read_index(chemin_index)
-    vecteurs = index_vecteurs.reconstruct_batch(range(0, nombre_phrases))
-    D, I = index_vecteurs.search(vecteurs[:], nombre_phrases)
-    print(I[:5, :5]) # sanity check
-    return D, I
+def creer_index(embeddings, chemin_sauvegarde):
+    d = embeddings.size(1)
+    index = faiss.IndexFlatIP(d) 
+    embeddings_np = embeddings.cpu().numpy().astype('float32')
+    index.add(embeddings_np)
+    if chemin_sauvegarde:
+        faiss.write_index(index, chemin_sauvegarde)
+    return index
+
+def requete(vecteurs_requete, index, top_k):
+    D, I = index.search(vecteurs_requete, top_k)
+    print(f"Le check santé:\t{I[:5, :5]}") # sanity check
+    return D, I 
+
+def ordonner_index(index_ordonnateur, index_ordonne):
+    return index_ordonne[index_ordonnateur, :] 
 
 def ordonner_index_max(distances:np.ndarray, indices:np.ndarray):
     indices_plus_similaires = distances[:,1].argsort()[::-1]
