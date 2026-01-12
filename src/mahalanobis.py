@@ -8,19 +8,20 @@ print(f"CUDA disponible: {torch.cuda.is_available()}")
 
 def transformation_mahalanobis(echantillon):
     echantillon = Vectoriseur(echantillon, dimensions=32).encoder_par_batch().to(device) # 50x32
-    print(f"Forme echantillon = {echantillon.Size()}")
+    print(f"Forme echantillon = {echantillon.size()}")
     with torch.no_grad():
         moyenne = echantillon.mean(0)
         echantillon = echantillon - moyenne
         cov = torch.mm(echantillon.t(), echantillon) / echantillon.size(0) 
         L = torch.linalg.cholesky(cov)
         inv = torch.linalg.inv(L) # 32x32
-    print(f"Forme inverse = {inv.Size()}")
+    print(f"Forme inverse = {inv.size()}")
     return inv, moyenne
 
 def mapper_vecteurs(corpus, inverse_covariance, moyenne):
-    corpus = Vectoriseur(corpus, dimensions=32).encoder_par_batch().to(device) # 40980 x 32
-    print(f"Forme corpus = {corpus.Size()}")
+    # corpus = Vectoriseur(corpus, dimensions=32).encoder_par_batch().to(device) # 40980 x 32
+    corpus = 
+    print(f"Forme corpus = {corpus.size()}")
     with torch.no_grad():
         corpus = corpus - moyenne 
         corpus = torch.mm(corpus, inverse_covariance.t()) # 40980 x 32
