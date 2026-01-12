@@ -47,7 +47,7 @@ class Corpus:
                 self.repères.append(doc.strip())
             
     def __len__(self):
-        return len(self.corpus)
+        return len(self.texte)
     
     def indiquer_volume(self, index):
         return self.repères[index]

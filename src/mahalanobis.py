@@ -33,14 +33,12 @@ def construire_csv(normes, corpus:Corpus):
         })
     df = df.sort_values("Distance mahalanobis")
     df.to_csv("results/normes_proximite.csv", index=False, encoding='utf-8')
-    df = df.sort_values("Index phrase")
-    df.to_csv("results/normes_diachronique.csv", index=False, encoding='utf-8')
 
 
 def main():
     echantillon = Corpus("phrases_son.txt", style="echantillon")
-    corpus = Corpus("phrases_son.txt", style="echantillon")
     inv, moyenne = transformation_mahalanobis(echantillon.texte)
+    corpus = Corpus("corpus_echos/", style="corpus")
     normes = mapper_vecteurs(corpus.texte, inv, moyenne).numpy()
     construire_csv(normes, corpus)
 

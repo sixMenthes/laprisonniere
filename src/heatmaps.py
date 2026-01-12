@@ -33,3 +33,6 @@ def plot_distance_heatmap(score_matrice, name="Cosinus", figsize=(12, 10)):
     plt.savefig(f'results/distance_heatmap_{name}.png', dpi=300, bbox_inches='tight')
     
     return 0
+
+
+

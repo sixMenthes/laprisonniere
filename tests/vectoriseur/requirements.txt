@@ -1,4 +1,0 @@
-'numpy<2'
-torch
-transformers
-einops
