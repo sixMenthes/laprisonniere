@@ -2,7 +2,7 @@ Proust's *La Recherche du Temps perdu* (RTP) is a work rich with depictions of p
 
 We first parse RTP and slice it in units  according to guidelines by (Serça, 2021)[^2]. Then these sentences or half-sentences are embedded in 32 dimensions by means of jina-embeddings-v3 from (Sturua et al., 2024)[^3]. We then  draw inspiration from (Tint, 2025)[^4] to build a sample of our targeted sentences, drawn from articles in (E.Eells, N.Toth, 2018). This sample is treated as that of a probability distribution of the 32 variables in the embeddings. Then, we calculate the Mahalanobis distance of the remaining sentences in RTP to the target distribution.
 
-All sentences in RTP ordered from the closest to the furthest of the target distribution are available in [normes_proximite.csv](./results/normes_proximite.csv). A top 1000 is also provided. We also provide two plots of the RTP per sentence, with the purpose of manually finding excerpts that are more likely to be related to audition.
+All sentences in RTP ordered from the closest to the furthest of the target distribution are available in results. A [top 1000](./results/top1000.csv) is also provided. We also provide two plots of the RTP per sentence, with the purpose of manually finding excerpts that are more likely to be related to audition.
 
 ![](./results/distance.png)
 
