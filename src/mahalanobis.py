@@ -2,6 +2,7 @@ from src.phraseur import Corpus
 from src.vectoriseur import Vectoriseur
 import torch
 import pandas as pd
+import numpy as np
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"CUDA disponible: {torch.cuda.is_available()}")
@@ -20,7 +21,7 @@ def transformation_mahalanobis(echantillon):
 
 def mapper_vecteurs(corpus, inverse_covariance, moyenne):
     # corpus = Vectoriseur(corpus, dimensions=32).encoder_par_batch().to(device) # 40980 x 32
-    corpus = 
+    corpus = torch.randn(100, 32)
     print(f"Forme corpus = {corpus.size()}")
     with torch.no_grad():
         corpus = corpus - moyenne 
