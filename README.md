@@ -5,16 +5,16 @@ We first parse RTP and slice it in units  according to guidelines by (Serça, 20
 All sentences in RTP ordered from the closest to the furthest of the target distribution are available in [normes_proximite.csv](./results/normes_proximite.csv). A top 1000 is also provided. We also provide two plots of the RTP per sentence, with the purpose of manually finding excerpts that are more likely to be related to audition.
 
 ![](./results/distance.png)
-\\
+
 ![](./results/distance_lissee.png)
-\\
-[^1]Toth, N. (ed.) (2018) Son et traduction dans l’oeuvre de Proust (1 vol). Paris: Honoré Champion éditeur (Recherches proustiennes, 41).
 
-[^2]Serça, I. (2021) Les coutures apparentes de “La recherche” :  Proust et la ponctuation (1 vol). Honoré Champion éditeur.
+[^1]:Toth, N. (ed.) (2018) Son et traduction dans l’oeuvre de Proust (1 vol). Paris: Honoré Champion éditeur (Recherches proustiennes, 41).
 
-[^3]Sturua, S. et al. (2024) “jina-embeddings-v3: Multilingual Embeddings With Task LoRA.” arXiv. Available at: https://doi.org/10.48550/arXiv.2409.10173.
+[^2]:Serça, I. (2021) Les coutures apparentes de “La recherche” :  Proust et la ponctuation (1 vol). Honoré Champion éditeur.
 
-[^4]Tint, J. (2025) “Guardrails, not Guidance: Understanding Responses to LGBTQ+ Language in Large Language Models,” in A. Pranav et al. (eds.) Proceedings of the Queer in AI Workshop. Hybrid format (in-person and virtual): Association for Computational Linguistics, pp. 6–16. Available at: https://doi.org/10.18653/v1/2025.queerinai-main.2.
+[^3]:Sturua, S. et al. (2024) “jina-embeddings-v3: Multilingual Embeddings With Task LoRA.” arXiv. Available at: https://doi.org/10.48550/arXiv.2409.10173.
+
+[^4]:Tint, J. (2025) “Guardrails, not Guidance: Understanding Responses to LGBTQ+ Language in Large Language Models,” in A. Pranav et al. (eds.) Proceedings of the Queer in AI Workshop. Hybrid format (in-person and virtual): Association for Computational Linguistics, pp. 6–16. Available at: https://doi.org/10.18653/v1/2025.queerinai-main.2.
 
 
 Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
